@@ -1,0 +1,79 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Product {
+  id: Int!
+  title: String!
+  price: Int!
+  stock_quantity: Int!
+  items: [CartItem!]
+}
+
+type CartItem {
+  id: Int!
+  cart: Cart!
+  product: Product
+  quantity: Int!
+}
+
+type Cart {
+  id: Float!
+  user: User!
+  userId: Int!
+  order: Order
+  items: [CartItem!]
+}
+
+type Order {
+  id: Int!
+  user: User!
+  cart: Cart!
+  total_amount: Int!
+  status: String!
+}
+
+type User {
+  id: Float!
+  name: String!
+  email: String!
+  access_token: String
+  orders: [Order!]
+  carts: [Cart!]
+}
+
+type GqlUserResponse {
+  code: Int!
+  success: Boolean!
+  message: String
+  data: User!
+}
+
+type GqlUsersArrayResponse {
+  code: Int!
+  success: Boolean!
+  message: String
+  data: [User!]!
+}
+
+type Query {
+  getHello: String!
+  getUser(id: Float!): GqlUserResponse!
+  getAllUsers: GqlUsersArrayResponse!
+}
+
+type Mutation {
+  register(input: CreateUserInput!): GqlUserResponse!
+  login(input: LoginInput!): GqlUserResponse!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
