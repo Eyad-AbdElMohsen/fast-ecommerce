@@ -4,4 +4,10 @@ import { ReviewService } from './review.service';
 @Resolver()
 export class ReviewResolver {
   constructor(private readonly reviewService: ReviewService) {}
+
+  //** --------------------- QUERIES --------------------- */
+
+  //** --------------------- MUTATIONS --------------------- */
+
+  //** ------------------ RESOLVE FIELDS & DataLoaders ------------------ */
 }

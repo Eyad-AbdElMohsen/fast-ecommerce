@@ -4,4 +4,10 @@ import { CartService } from './cart.service';
 @Resolver()
 export class CartResolver {
   constructor(private readonly cartService: CartService) {}
+
+  //** --------------------- QUERIES --------------------- */
+
+  //** --------------------- MUTATIONS --------------------- */
+
+  //** ------------------ RESOLVE FIELDS & DataLoaders ------------------ */
 }

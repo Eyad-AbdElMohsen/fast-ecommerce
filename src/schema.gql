@@ -61,11 +61,18 @@ type User {
   name: String!
   email: String!
   access_token: String
+  role: UserRoleEnum!
   orders: [Order!]
   carts: [Cart!]
   reviews: [Review!]
   securityGroup: SecurityGroup
   payments: [Payment!]
+}
+
+enum UserRoleEnum {
+  USER
+  ADMIN
+  SUPER_ADMIN
 }
 
 type Shipment {
