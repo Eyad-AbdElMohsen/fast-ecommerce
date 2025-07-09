@@ -12,12 +12,8 @@ export class CreateSecurityInput {
   @IsNotEmpty()
   groupName: string;
 
-  @Field({ nullable: true })
-  description?: string;
-
   @ValidPermissions()
   @Field(() => [String])
-  @IsString({ each: true })
   permissions: string[];
 
   @Field({ defaultValue: true })

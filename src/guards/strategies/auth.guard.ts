@@ -1,13 +1,12 @@
-import { CanActivate, ExecutionContext } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { AuthOpts } from 'src/decorators/auth.decorator';
 import { SecurityGroupService } from 'src/modules/auth/security-group/security-group.service';
-import { UserService } from 'src/modules/auth/user/user.service';
 
+@Injectable()
 export class AuthenticatedGuard implements CanActivate {
   constructor(
     private readonly authOpts: AuthOpts,
-    private readonly userService: UserService,
     private readonly securityService: SecurityGroupService,
   ) {}
 
@@ -15,11 +14,6 @@ export class AuthenticatedGuard implements CanActivate {
     const ctx = GqlExecutionContext.create(context);
     const { currentUser } = ctx.getContext();
     if (!currentUser) throw new Error('UNAUTHORIZED');
-
-    const user = await this.userService.getUserByEmail(currentUser.email);
-    if (!user) throw new Error('UNAUTHORIZED');
-
-    console.log('Successfully Authorized: ', user);
     return true;
   }
 }

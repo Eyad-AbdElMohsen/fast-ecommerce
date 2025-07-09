@@ -1,4 +1,11 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { Auth } from 'src/decorators/auth.decorator';
 import { SecurityGroupService } from './security-group.service';
 import {
@@ -6,9 +13,16 @@ import {
   GqlSecurityResponse,
 } from './responses/security-group.response';
 import { CreateSecurityInput } from './input/create-group.input';
+import { User } from '../user/user.entity';
+import { SecurityGroup } from './security-group.entity';
+import { Loader } from 'src/decorators/loader.decorator';
+import DataLoader from 'dataloader';
+import { UserLoader } from '../user/loader/user.loader';
+import { GqlStringArrayResponse } from 'src/gql/graphql-response';
+import { getAllPermissions } from 'src/types/security-group-permissions.type.ts';
 
-@Resolver()
-export class SecurityResolver {
+@Resolver(() => SecurityGroup)
+export class SecurityGroupResolver {
   constructor(private readonly securityGroupService: SecurityGroupService) {}
 
   //** --------------------- QUERIES --------------------- */
@@ -16,6 +30,12 @@ export class SecurityResolver {
   @Query(() => GqlSecurityArrayResponse)
   async getSecurityGroups() {
     return await this.securityGroupService.getSecurityGroups();
+  }
+
+  @Auth({ allow: 'admin', permissions: ['READ_PERMISSIONS']})
+  @Query(() => GqlStringArrayResponse)
+  async getAllPermissions() {
+    return getAllPermissions();
   }
 
   //** --------------------- MUTATIONS --------------------- */
@@ -26,4 +46,11 @@ export class SecurityResolver {
   }
 
   //** ------------------ RESOLVE FIELDS & DataLoaders ------------------ */
+  @ResolveField(() => [User], { nullable: true })
+  users(
+    @Parent() securityGroup: SecurityGroup,
+    @Loader(UserLoader) userLoader: DataLoader<any, any>,
+  ) {
+    return userLoader.load(securityGroup.id);
+  }
 }

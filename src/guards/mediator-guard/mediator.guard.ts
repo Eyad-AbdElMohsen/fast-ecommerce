@@ -1,31 +1,31 @@
 import {
   CanActivate,
   ExecutionContext,
+  Inject,
   Injectable,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Observable } from 'rxjs';
-import { AuthGuards } from '.';
+
 import { SecurityGroupService } from 'src/modules/auth/security-group/security-group.service';
-import { UserService } from 'src/modules/auth/user/user.service';
+import { AuthGuards } from '..';
 import { AuthOpts } from 'src/decorators/auth.decorator';
 
 @Injectable()
 export class MediatorGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    private readonly userService: UserService,
-    private readonly securityService: SecurityGroupService,
+    private readonly securityGroupService: SecurityGroupService,
   ) {}
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+
+
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const authOpts =
       this.reflector.get<AuthOpts>('authOpts', context.getHandler()) ||
       this.reflector.get<AuthOpts>('authOpts', context.getClass());
-    const guard = new AuthGuards[authOpts.allow || 'user'](
+
+    const guard = new AuthGuards[authOpts.allow || 'authenticated'](
       authOpts,
-      this.userService,
+      this.securityGroupService,
     );
     return guard.canActivate(context);
   }

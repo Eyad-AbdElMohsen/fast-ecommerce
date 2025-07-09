@@ -61,6 +61,7 @@ export class User {
   @Field(() => SecurityGroup, { nullable: true })
   securityGroup?: SecurityGroup;
 
+  @Field({ nullable: true })
   @Column({ nullable: true })
   securityGroupId?: number;
 

@@ -13,10 +13,6 @@ export class SecurityGroup {
   @Field()
   groupName: string;
 
-  @Column({ nullable: true })
-  @Field({ nullable: true })
-  description?: string;
-
   @Column('simple-array') 
   @Field(() => [String])
   permissions: string[];

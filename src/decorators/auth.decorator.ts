@@ -1,6 +1,6 @@
 import { applyDecorators, SetMetadata, UseGuards } from '@nestjs/common';
-import { AuthGuards } from '../guards/index';
-import { MediatorGuard } from 'src/guards/mediator.guard';
+import { AuthGuards } from 'src/guards';
+import { MediatorGuard } from 'src/guards/mediator-guard/mediator.guard';
 import { PermissionType } from 'src/types/security-group-permissions.type.ts';
 
 export interface AuthOpts {

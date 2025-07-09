@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { createGqlConfig } from './gql/gql.config';
+import { GqlConfigService } from './gql/gql.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppService } from './app.service';
@@ -29,13 +29,28 @@ import { Shipment } from './modules/shipment/shipment.entity';
 import { ShipmentModule } from './modules/shipment/shipment.module';
 import { User } from './modules/auth/user/user.entity';
 import { UserModule } from './modules/auth/user/user.module';
+import { JwtModule } from '@nestjs/jwt';
+import { DataLoaderInterceptor } from './interceptors/dataloader.interceptor';
+import { DataLoaderModule } from './dataloader/dataloader.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      global: true,
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '1d' },
+      }),
+    }),
+    DataLoaderModule,
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
-      useFactory: () => createGqlConfig,
+      imports: [ConfigModule, DataLoaderModule],
+      inject: [ConfigService],
+      useClass: GqlConfigService,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -57,7 +72,7 @@ import { UserModule } from './modules/auth/user/user.module';
           Review,
           Category,
           Payment,
-          Shipment
+          Shipment,
         ],
         synchronize: true,
       }),
@@ -71,7 +86,7 @@ import { UserModule } from './modules/auth/user/user.module';
     ReviewModule,
     CategoryModule,
     PaymentModule,
-    ShipmentModule
+    ShipmentModule,
   ],
   providers: [
     AppResolver,
@@ -79,6 +94,10 @@ import { UserModule } from './modules/auth/user/user.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: GqlResponseInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: DataLoaderInterceptor,
     },
     {
       provide: APP_FILTER,

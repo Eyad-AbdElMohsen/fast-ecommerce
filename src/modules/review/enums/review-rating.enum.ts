@@ -9,5 +9,4 @@ export enum ReviewRatingEnum {
 }
 registerEnumType(ReviewRatingEnum, {
   name: 'ReviewRating',
-  description: 'Rating for a review, from 1 to 5',
 });
