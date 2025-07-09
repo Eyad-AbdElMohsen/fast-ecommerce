@@ -1,7 +1,16 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
 import { Order } from '../order/order.entity';
 import { Cart } from '../cart/cart.entity';
+import { SecurityGroup } from '../security-group/security-group.entity';
+import { Review } from '../review/review.entity';
+import { Payment } from '../payment/payment.entity';
 
 @Entity()
 @ObjectType()
@@ -30,5 +39,23 @@ export class User {
 
   @OneToMany(() => Cart, (cart) => cart.user)
   @Field(() => [Cart], { nullable: true })
-  carts: Cart[];
+  carts?: Cart[];
+
+  @OneToMany(() => Review, (review) => review.user)
+  @Field(() => [Review], { nullable: true })
+  reviews?: Review[];
+
+  @ManyToOne(() => SecurityGroup, {
+    onDelete: 'SET NULL',
+    onUpdate: 'SET NULL',
+  })
+  @Field(() => SecurityGroup, { nullable: true })
+  securityGroup?: SecurityGroup;
+
+  @Column({ nullable: true })
+  securityGroupId?: string;
+
+  @OneToMany(() => Payment, (payment) => payment.user)
+  @Field(() => [Payment], { nullable: true })
+  payments?: Payment[];
 }

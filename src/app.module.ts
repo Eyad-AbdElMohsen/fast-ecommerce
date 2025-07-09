@@ -19,6 +19,16 @@ import { Cart } from './modules/cart/cart.entity';
 import { CartModule } from './modules/cart/cart.module';
 import { CartItem } from './modules/cart-item/cart-item.entity';
 import { CartItemModule } from './modules/cart-item/cart-item.module';
+import { SecurityGroupModule } from './modules/security-group/security-group.module';
+import { SecurityGroup } from './modules/security-group/security-group.entity';
+import { Review } from './modules/review/review.entity';
+import { ReviewModule } from './modules/review/review.module';
+import { Category } from './modules/category/category.entity';
+import { CategoryModule } from './modules/category/category.module';
+import { PaymentModule } from './modules/payment/payment.module';
+import { Payment } from './modules/payment/payment.entity';
+import { Shipment } from './modules/shipment/shipment.entity';
+import { ShipmentModule } from './modules/shipment/shipment.module';
 
 @Module({
   imports: [
@@ -37,7 +47,18 @@ import { CartItemModule } from './modules/cart-item/cart-item.module';
         username: configService.get('USERNAME'),
         password: configService.get('PASSWORD'),
         database: configService.get('DATABASE'),
-        entities: [User, Product, Order, Cart, CartItem],
+        entities: [
+          User,
+          Product,
+          Order,
+          Cart,
+          CartItem,
+          SecurityGroup,
+          Review,
+          Category,
+          Payment,
+          Shipment
+        ],
         synchronize: true,
       }),
     }),
@@ -46,6 +67,11 @@ import { CartItemModule } from './modules/cart-item/cart-item.module';
     OrderModule,
     CartModule,
     CartItemModule,
+    SecurityGroupModule,
+    ReviewModule,
+    CategoryModule,
+    PaymentModule,
+    ShipmentModule
   ],
   providers: [
     AppResolver,
