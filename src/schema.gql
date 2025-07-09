@@ -2,6 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type SecurityGroup {
+  id: ID!
+  groupName: String!
+  description: String
+  permissions: [String!]!
+  isActive: Boolean!
+  users: [User!]
+}
+
 type Review {
   id: ID!
   rating: ReviewRating
@@ -17,38 +26,6 @@ enum ReviewRating {
   THREE
   FOUR
   FIVE
-}
-
-type Category {
-  id: ID!
-  name: String!
-  description: String
-  products: [Product!]
-}
-
-type Product {
-  id: Int!
-  title: String!
-  price: Int!
-  stock_quantity: Int!
-  items: [CartItem!]
-  reviews: [Review!]
-  category: Category!
-}
-
-type CartItem {
-  id: Int!
-  cart: Cart!
-  product: Product
-  quantity: Int!
-}
-
-type Cart {
-  id: Float!
-  user: User!
-  userId: Int!
-  order: Order
-  items: [CartItem!]
 }
 
 type Payment {
@@ -78,6 +55,18 @@ enum PaymentStatus {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type User {
+  id: Float!
+  name: String!
+  email: String!
+  access_token: String
+  orders: [Order!]
+  carts: [Cart!]
+  reviews: [Review!]
+  securityGroup: SecurityGroup
+  payments: [Payment!]
+}
 
 type Shipment {
   id: ID!
@@ -120,25 +109,36 @@ enum OrderStatusEnum {
   CANCELED
 }
 
-type SecurityGroup {
-  id: ID!
-  groupName: String!
-  description: String
-  permissions: [String!]!
-  isActive: Boolean!
-  users: [User!]
+type Cart {
+  id: Float!
+  user: User!
+  userId: Int!
+  order: Order
+  items: [CartItem!]
 }
 
-type User {
-  id: Float!
+type CartItem {
+  id: Int!
+  cart: Cart!
+  product: Product
+  quantity: Int!
+}
+
+type Category {
+  id: ID!
   name: String!
-  email: String!
-  access_token: String
-  orders: [Order!]
-  carts: [Cart!]
+  description: String
+  products: [Product!]
+}
+
+type Product {
+  id: Int!
+  title: String!
+  price: Int!
+  stock_quantity: Int!
+  items: [CartItem!]
   reviews: [Review!]
-  securityGroup: SecurityGroup
-  payments: [Payment!]
+  category: Category!
 }
 
 type GqlUserResponse {

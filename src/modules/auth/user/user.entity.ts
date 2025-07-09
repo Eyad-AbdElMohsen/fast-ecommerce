@@ -6,11 +6,11 @@ import {
   OneToMany,
   ManyToOne,
 } from 'typeorm';
-import { Order } from '../order/order.entity';
-import { Cart } from '../cart/cart.entity';
+import { Order } from '../../order/order.entity';
+import { Cart } from '../../cart/cart.entity';
 import { SecurityGroup } from '../security-group/security-group.entity';
-import { Review } from '../review/review.entity';
-import { Payment } from '../payment/payment.entity';
+import { Review } from '../../review/review.entity';
+import { Payment } from '../../payment/payment.entity';
 
 @Entity()
 @ObjectType()

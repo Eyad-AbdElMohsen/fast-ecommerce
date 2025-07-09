@@ -9,8 +9,6 @@ import { AppResolver } from './app.resolver';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { GqlResponseInterceptor } from './gql/gql.response.interceptor';
 import { GraphQLExceptionsFilter } from './filters/exception.filter';
-import { UserModule } from './modules/user/user.module';
-import { User } from './modules/user/user.entity';
 import { ProductModule } from './modules/product/product.module';
 import { Product } from './modules/product/product.entity';
 import { OrderModule } from './modules/order/order.module';
@@ -19,8 +17,8 @@ import { Cart } from './modules/cart/cart.entity';
 import { CartModule } from './modules/cart/cart.module';
 import { CartItem } from './modules/cart-item/cart-item.entity';
 import { CartItemModule } from './modules/cart-item/cart-item.module';
-import { SecurityGroupModule } from './modules/security-group/security-group.module';
-import { SecurityGroup } from './modules/security-group/security-group.entity';
+import { SecurityGroupModule } from './modules/auth/security-group/security-group.module';
+import { SecurityGroup } from './modules/auth/security-group/security-group.entity';
 import { Review } from './modules/review/review.entity';
 import { ReviewModule } from './modules/review/review.module';
 import { Category } from './modules/category/category.entity';
@@ -29,6 +27,8 @@ import { PaymentModule } from './modules/payment/payment.module';
 import { Payment } from './modules/payment/payment.entity';
 import { Shipment } from './modules/shipment/shipment.entity';
 import { ShipmentModule } from './modules/shipment/shipment.module';
+import { User } from './modules/auth/user/user.entity';
+import { UserModule } from './modules/auth/user/user.module';
 
 @Module({
   imports: [

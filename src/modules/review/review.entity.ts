@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { ObjectType, Field, ID, Int } from '@nestjs/graphql';
-import { User } from '../user/user.entity';
+import { User } from '../auth/user/user.entity';
 import { Product } from '../product/product.entity';
 import { ReviewRatingEnum } from './enums/review-rating.enum';
 

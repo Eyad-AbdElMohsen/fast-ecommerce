@@ -7,7 +7,7 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { User } from '../user/user.entity';
+import { User } from '../auth/user/user.entity';
 import { Cart } from '../cart/cart.entity';
 import { OrderStatusEnum } from './enum/order-status.enum';
 import { Payment } from '../payment/payment.entity';

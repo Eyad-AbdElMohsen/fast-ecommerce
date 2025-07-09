@@ -4,8 +4,8 @@ import { UserResolver } from './user.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { JwtModule } from '@nestjs/jwt';
-import { Order } from '../order/order.entity';
-import { Cart } from '../cart/cart.entity';
+import { Order } from '../../order/order.entity';
+import { Cart } from '../../cart/cart.entity';
 
 @Module({
   imports: [
