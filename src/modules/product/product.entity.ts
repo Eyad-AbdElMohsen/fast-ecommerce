@@ -1,4 +1,4 @@
-import { Field, ObjectType, Float, Int } from '@nestjs/graphql';
+import { Field, ObjectType, Int } from '@nestjs/graphql';
 import {
   Entity,
   Column,
@@ -9,6 +9,7 @@ import {
 import { CartItem } from '../cart-item/cart-item.entity';
 import { Review } from '../review/review.entity';
 import { Category } from '../category/category.entity';
+import { OrderItem } from '../order-item/order-item.entity';
 
 @Entity()
 @ObjectType()
@@ -29,10 +30,6 @@ export class Product {
   @Column()
   stock_quantity: number;
 
-  @OneToMany(() => CartItem, (item) => item.product)
-  @Field(() => [CartItem], { nullable: true })
-  items: CartItem[];
-
   @OneToMany(() => Review, (review) => review.product)
   @Field(() => [Review], { nullable: true })
   reviews?: Review[];
@@ -40,4 +37,18 @@ export class Product {
   @ManyToOne(() => Category, (category) => category.products)
   @Field(() => Category)
   category: Category;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  categoryId?: number;
+
+  @OneToMany(() => CartItem, (item) => item.product, { nullable: true })
+  @Field(() => [CartItem], { nullable: true })
+  cartItems?: CartItem[];
+
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.product, {
+    nullable: true,
+  })
+  @Field(() => OrderItem, { nullable: true })
+  orderItems?: OrderItem[];
 }

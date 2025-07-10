@@ -32,6 +32,8 @@ import { UserModule } from './modules/auth/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { DataLoaderInterceptor } from './interceptors/dataloader.interceptor';
 import { DataLoaderModule } from './dataloader/dataloader.module';
+import { OrderItemModule } from './modules/order-item/order-item.module';
+import { OrderItem } from './modules/order-item/order-item.entity';
 
 @Module({
   imports: [
@@ -73,6 +75,7 @@ import { DataLoaderModule } from './dataloader/dataloader.module';
           Category,
           Payment,
           Shipment,
+          OrderItem
         ],
         synchronize: true,
       }),
@@ -87,6 +90,7 @@ import { DataLoaderModule } from './dataloader/dataloader.module';
     CategoryModule,
     PaymentModule,
     ShipmentModule,
+    OrderItemModule
   ],
   providers: [
     AppResolver,

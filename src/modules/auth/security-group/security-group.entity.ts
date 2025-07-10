@@ -13,7 +13,7 @@ export class SecurityGroup {
   @Field()
   groupName: string;
 
-  @Column('simple-array') 
+  @Column('simple-array')
   @Field(() => [String])
   permissions: string[];
 
@@ -21,7 +21,7 @@ export class SecurityGroup {
   @Field(() => Boolean, { defaultValue: true })
   isActive: boolean;
 
-  @OneToMany(() => User, (user) => user.securityGroup)
+  @OneToMany(() => User, (user) => user.securityGroup, { nullable: true })
   @Field(() => [User], { nullable: true })
   users?: User[];
 }

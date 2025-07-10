@@ -5,13 +5,13 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToOne,
-  JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { User } from '../auth/user/user.entity';
-import { Cart } from '../cart/cart.entity';
 import { OrderStatusEnum } from './enum/order-status.enum';
 import { Payment } from '../payment/payment.entity';
 import { Shipment } from '../shipment/shipment.entity';
+import { OrderItem } from '../order-item/order-item.entity';
 
 @Entity()
 @ObjectType()
@@ -19,15 +19,6 @@ export class Order {
   @PrimaryGeneratedColumn()
   @Field(() => Int)
   id: number;
-
-  @ManyToOne(() => User, (user) => user.orders, { nullable: true })
-  @Field(() => User)
-  user: User;
-
-  @OneToOne(() => Cart, { nullable: true })
-  @JoinColumn()
-  @Field(() => Cart)
-  cart: Cart;
 
   @Field(() => Int)
   @Column()
@@ -41,6 +32,13 @@ export class Order {
   })
   status: OrderStatusEnum;
 
+  @ManyToOne(() => User, (user) => user.orders, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @Field(() => User)
+  user: User;
+
   @OneToOne(() => Payment, (payment) => payment.order, { nullable: true })
   @Field(() => Payment, { nullable: true })
   payment?: Payment;
@@ -48,4 +46,10 @@ export class Order {
   @OneToOne(() => Shipment, (shipment) => shipment.order, { nullable: true })
   @Field(() => Shipment, { nullable: true })
   shipment?: Shipment;
+
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, {
+    nullable: true,
+  })
+  @Field(() => OrderItem, { nullable: true })
+  orderItems?: OrderItem[];
 }

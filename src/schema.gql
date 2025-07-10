@@ -2,38 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type SecurityGroup {
-  id: ID!
-  groupName: String!
-  permissions: [String!]!
-  isActive: Boolean!
-  users: [User!]
-}
-
-type Review {
-  id: ID!
-  rating: ReviewRating
-  comment: String
-  user: User!
-  product: Product!
-}
-
-enum ReviewRating {
-  ONE
-  TWO
-  THREE
-  FOUR
-  FIVE
-}
-
 type Payment {
   id: ID!
-  order: Order!
-  user: User
   paymentMethod: PaymentMethod!
   status: PaymentStatus!
-  amount: Float!
+  amount: Int!
   paidAt: DateTime
+  order: Order!
+  orderId: Float
+  user: User
+  userId: Float
 }
 
 enum PaymentMethod {
@@ -54,34 +32,14 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type User {
-  id: Float!
-  name: String!
-  email: String!
-  access_token: String
-  role: UserRoleEnum!
-  orders: [Order!]
-  carts: [Cart!]
-  reviews: [Review!]
-  securityGroup: SecurityGroup
-  securityGroupId: Float
-  payments: [Payment!]
-}
-
-enum UserRoleEnum {
-  USER
-  ADMIN
-  SUPER_ADMIN
-}
-
 type Shipment {
   id: ID!
-  order: Order
-  orderId: Float
   carrier: ShipmentCarrierEnum!
   status: ShipmentStatus!
   shippedAt: DateTime
   deliveredAt: DateTime
+  order: Order
+  orderId: Float
 }
 
 enum ShipmentCarrierEnum {
@@ -99,14 +57,24 @@ enum ShipmentStatus {
   CANCELLED
 }
 
+type OrderItem {
+  id: ID!
+  quantity: Int!
+  price: Int!
+  order: Order!
+  orderId: Int!
+  product: Product
+  productId: Int
+}
+
 type Order {
   id: Int!
-  user: User!
-  cart: Cart!
   total_amount: Int!
   status: OrderStatusEnum!
+  user: User!
   payment: Payment
   shipment: Shipment
+  orderItems: OrderItem
 }
 
 enum OrderStatusEnum {
@@ -115,19 +83,64 @@ enum OrderStatusEnum {
   CANCELED
 }
 
+type SecurityGroup {
+  id: ID!
+  groupName: String!
+  permissions: [String!]!
+  isActive: Boolean!
+  users: [User!]
+}
+
+type Review {
+  id: ID!
+  rating: ReviewRating!
+  comment: String
+  user: User!
+  userId: Int!
+  product: Product!
+  productId: Int!
+}
+
+enum ReviewRating {
+  ONE
+  TWO
+  THREE
+  FOUR
+  FIVE
+}
+
+type User {
+  id: Float!
+  name: String!
+  email: String!
+  access_token: String
+  role: UserRoleEnum!
+  securityGroup: SecurityGroup
+  securityGroupId: Float
+  cart: Cart
+  orders: [Order!]
+  reviews: [Review!]
+  payments: [Payment!]
+}
+
+enum UserRoleEnum {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
 type Cart {
   id: Float!
   user: User!
   userId: Int!
-  order: Order
   items: [CartItem!]
 }
 
 type CartItem {
   id: Int!
+  quantity: Int!
   cart: Cart!
   product: Product
-  quantity: Int!
 }
 
 type Category {
@@ -142,9 +155,11 @@ type Product {
   title: String!
   price: Int!
   stock_quantity: Int!
-  items: [CartItem!]
   reviews: [Review!]
   category: Category!
+  categoryId: Float
+  cartItems: [CartItem!]
+  orderItems: OrderItem
 }
 
 type GqlBooleanResponse {

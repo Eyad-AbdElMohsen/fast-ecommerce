@@ -3,7 +3,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  CreateDateColumn,
   OneToOne,
   JoinColumn,
 } from 'typeorm';
@@ -17,18 +16,6 @@ export class Shipment {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
   id: number;
-
-  @OneToOne(() => Order, (order) => order.shipment, {
-    onDelete: 'SET NULL',
-    nullable: true,
-  })
-  @JoinColumn()
-  @Field(() => Order, { nullable: true })
-  order: Order;
-
-  @Column({ nullable: true })
-  @Field({ nullable: true })
-  orderId: number;
 
   @Column({
     type: 'enum',
@@ -53,4 +40,16 @@ export class Shipment {
   @Column({ type: 'timestamp', nullable: true })
   @Field({ nullable: true })
   deliveredAt?: Date;
+
+  @OneToOne(() => Order, (order) => order.shipment, {
+    onDelete: 'SET NULL',
+    nullable: true,
+  })
+  @JoinColumn()
+  @Field(() => Order, { nullable: true })
+  order?: Order;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  orderId?: number;
 }

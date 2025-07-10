@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   ManyToOne,
+  OneToOne,
 } from 'typeorm';
 import { Order } from '../../order/order.entity';
 import { Cart } from '../../cart/cart.entity';
@@ -42,18 +43,6 @@ export class User {
   })
   role: UserRoleEnum;
 
-  @OneToMany(() => Order, (order) => order.user)
-  @Field(() => [Order], { nullable: true })
-  orders: Order[];
-
-  @OneToMany(() => Cart, (cart) => cart.user)
-  @Field(() => [Cart], { nullable: true })
-  carts?: Cart[];
-
-  @OneToMany(() => Review, (review) => review.user)
-  @Field(() => [Review], { nullable: true })
-  reviews?: Review[];
-
   @ManyToOne(() => SecurityGroup, {
     onDelete: 'SET NULL',
     onUpdate: 'SET NULL',
@@ -64,6 +53,18 @@ export class User {
   @Field({ nullable: true })
   @Column({ nullable: true })
   securityGroupId?: number;
+
+  @OneToOne(() => Cart, (cart) => cart.user)
+  @Field(() => Cart, { nullable: true })
+  cart: Cart;
+
+  @OneToMany(() => Order, (order) => order.user)
+  @Field(() => [Order], { nullable: true })
+  orders?: Order[];
+
+  @OneToMany(() => Review, (review) => review.user)
+  @Field(() => [Review], { nullable: true })
+  reviews?: Review[];
 
   @OneToMany(() => Payment, (payment) => payment.user)
   @Field(() => [Payment], { nullable: true })

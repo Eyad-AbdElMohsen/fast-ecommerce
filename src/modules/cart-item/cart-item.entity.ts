@@ -16,19 +16,19 @@ export class CartItem {
   @PrimaryGeneratedColumn()
   @Field(() => Int)
   id: number;
+  
+  @Column()
+  @Field(() => Int)
+  quantity: number;
 
   @ManyToOne(() => Cart, (cart) => cart.items, { onDelete: 'CASCADE' })
   @Field(() => Cart)
   cart: Cart;
-  
-  @ManyToOne(() => Product, (product) => product.items, {
+
+  @ManyToOne(() => Product, (product) => product.cartItems, {
     onDelete: 'SET NULL',
     nullable: true,
   })
   @Field(() => Product, { nullable: true })
-  product: Product;
-
-  @Column()
-  @Field(() => Int)
-  quantity: number;
+  product?: Product;
 }

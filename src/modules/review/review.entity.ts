@@ -16,8 +16,8 @@ export class Review {
     enum: ReviewRatingEnum,
     nullable: false,
   })
-  @Field(() => ReviewRatingEnum, { nullable: true })
-  rating?: ReviewRatingEnum;
+  @Field(() => ReviewRatingEnum)
+  rating: ReviewRatingEnum;
 
   @Column({ type: 'text', nullable: true })
   @Field({ nullable: true })
@@ -27,9 +27,17 @@ export class Review {
   @Field(() => User)
   user: User;
 
+  @Column()
+  @Field(() => Int)
+  userId: number;
+  
   @ManyToOne(() => Product, (product) => product.reviews, {
     onDelete: 'CASCADE',
   })
   @Field(() => Product)
   product: Product;
+  
+  @Column()
+  @Field(() => Int)
+  productId: number;
 }

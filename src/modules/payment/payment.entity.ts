@@ -1,4 +1,4 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field, ID, Int } from '@nestjs/graphql';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -19,15 +19,6 @@ export class Payment {
   @Field(() => ID)
   id: number;
 
-  @OneToOne(() => Order, (order) => order.payment, { onDelete: 'SET NULL' })
-  @JoinColumn()
-  @Field(() => Order)
-  order: Order;
-
-  @ManyToOne(() => User, (user) => user.payments, { onDelete: 'SET NULL' })
-  @Field(() => User, { nullable: true })
-  user?: User;
-
   @Column({
     type: 'enum',
     enum: PaymentMethodEnum,
@@ -44,11 +35,28 @@ export class Payment {
   @Field(() => PaymentStatusEnum)
   status: PaymentStatusEnum;
 
-  @Column('decimal')
-  @Field()
+  @Column()
+  @Field(() => Int)
   amount: number;
 
   @Column({ type: 'timestamp', nullable: true })
   @Field({ nullable: true })
   paidAt?: Date;
+
+  @OneToOne(() => Order, (order) => order.payment, { onDelete: 'SET NULL' })
+  @JoinColumn()
+  @Field(() => Order)
+  order: Order;
+
+  @Column({ nullable: true })
+  @Field(() => Number, { nullable: true })
+  orderId?: number;
+
+  @ManyToOne(() => User, (user) => user.payments, { onDelete: 'SET NULL' })
+  @Field(() => User, { nullable: true })
+  user?: User;
+
+  @Column({ nullable: true })
+  @Field(() => Number, { nullable: true })
+  userId?: number;
 }
