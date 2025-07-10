@@ -38,6 +38,7 @@ type Shipment {
   status: ShipmentStatus!
   shippedAt: DateTime
   deliveredAt: DateTime
+  address: String
   order: Order
   orderId: Float
 }
@@ -126,6 +127,7 @@ type User {
 enum UserRoleEnum {
   USER
   ADMIN
+  COMPANY
   SUPER_ADMIN
 }
 
@@ -206,26 +208,20 @@ type GqlSecurityGroupsArrayResponse {
 
 type Query {
   getHello: String!
-  getSecurityGroups: GqlSecurityGroupsArrayResponse!
-  getAllPermissions: GqlStringsArrayResponse!
   getUser(id: Float!): GqlUserResponse!
   getAllUsers: GqlUsersArrayResponse!
   getMe: GqlUserResponse!
   getAdmins: GqlUsersArrayResponse!
+  getSecurityGroups: GqlSecurityGroupsArrayResponse!
+  getAllPermissions: GqlStringsArrayResponse!
 }
 
 type Mutation {
-  createSecurityGroup(input: CreateSecurityInput!): GqlSecurityGroupResponse!
   register(input: CreateUserInput!): GqlUserResponse!
   login(input: LoginInput!): GqlUserResponse!
   seedAdmin: GqlBooleanResponse!
   createAdmin(input: CreateAdminInput!): GqlUserResponse!
-}
-
-input CreateSecurityInput {
-  groupName: String!
-  permissions: [String!]!
-  isActive: Boolean! = true
+  createSecurityGroup(input: CreateSecurityInput!): GqlSecurityGroupResponse!
 }
 
 input CreateUserInput {
@@ -244,5 +240,11 @@ input CreateAdminInput {
   email: String!
   password: String!
   securityGroupId: Int!
+  isActive: Boolean! = true
+}
+
+input CreateSecurityInput {
+  groupName: String!
+  permissions: [String!]!
   isActive: Boolean! = true
 }

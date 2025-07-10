@@ -31,7 +31,6 @@ import { User } from './modules/auth/user/user.entity';
 import { UserModule } from './modules/auth/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { DataLoaderInterceptor } from './interceptors/dataloader.interceptor';
-import { DataLoaderModule } from './dataloader/dataloader.module';
 import { OrderItemModule } from './modules/order-item/order-item.module';
 import { OrderItem } from './modules/order-item/order-item.entity';
 
@@ -47,10 +46,9 @@ import { OrderItem } from './modules/order-item/order-item.entity';
         signOptions: { expiresIn: '1d' },
       }),
     }),
-    DataLoaderModule,
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
-      imports: [ConfigModule, DataLoaderModule],
+      imports: [ConfigModule],
       inject: [ConfigService],
       useClass: GqlConfigService,
     }),

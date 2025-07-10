@@ -56,7 +56,6 @@ registerEnumType(ShipmentPermissionsEnum, { name: 'ShipmentPermissionsEnum' });
 
 export enum ReviewPermissionsEnum {
   READ_REVIEWS = 'READ_REVIEWS',
-  CREATE_REVIEWS = 'CREATE_REVIEWS',
   DELETE_REVIEWS = 'DELETE_REVIEWS',
   MODERATE_REVIEWS = 'MODERATE_REVIEWS',
 }

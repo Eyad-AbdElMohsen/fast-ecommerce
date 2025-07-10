@@ -45,8 +45,8 @@ export class UserResolver {
 
   @Auth({ allow: 'authenticated' })
   @Query(() => GqlUserResponse)
-  async getMe(@CurrentUser() user: User) {
-    return await this.userService.getUserById(user.id);
+  async getMe(@CurrentUser() currentUser: User) {
+    return currentUser
   }
 
   @Auth({

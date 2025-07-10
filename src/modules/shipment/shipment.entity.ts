@@ -20,7 +20,7 @@ export class Shipment {
   @Column({
     type: 'enum',
     enum: ShipmentCarrierEnum,
-    default: ShipmentCarrierEnum.Other,
+    nullable: true,
   })
   @Field(() => ShipmentCarrierEnum)
   carrier: ShipmentCarrierEnum;
@@ -40,6 +40,10 @@ export class Shipment {
   @Column({ type: 'timestamp', nullable: true })
   @Field({ nullable: true })
   deliveredAt?: Date;
+
+  @Column({ nullable: true })
+  @Field({ nullable: true })
+  address?: string
 
   @OneToOne(() => Order, (order) => order.shipment, {
     onDelete: 'SET NULL',
