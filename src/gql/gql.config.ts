@@ -4,13 +4,13 @@ import { JwtService } from '@nestjs/jwt';
 import { join } from 'path';
 import { JwtPayload } from 'src/types/jwt.type';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { DataLoaderService } from 'src/dataloader/dataloader.service';
+// import { DataLoaderService } from 'src/dataloader/dataloader.service';
 
 @Injectable()
 export class GqlConfigService implements GqlOptionsFactory<ApolloDriverConfig> {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly dataloaderService: DataLoaderService,
+    // private readonly dataloaderService: DataLoaderService,
   ) {}
 
   createGqlOptions(): ApolloDriverConfig {
@@ -46,7 +46,7 @@ export class GqlConfigService implements GqlOptionsFactory<ApolloDriverConfig> {
           req,
           res,
           currentUser,
-          loaders: this.dataloaderService.createLoaders(),
+          // loaders: this.dataloaderService.createLoaders(),
         };
       },
       formatError: (error) => ({

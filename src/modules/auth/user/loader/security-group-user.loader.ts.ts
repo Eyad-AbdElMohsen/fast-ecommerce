@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as DataLoader from 'dataloader'; // Use * as DataLoader for explicit import
+import * as DataLoader from 'dataloader';
 import { In, Repository } from 'typeorm';
-import { SecurityGroup } from '../security-group.entity';
 import { NestDataLoader } from 'src/decorators/loader.decorator';
+import { SecurityGroup } from '../../security-group/security-group.entity';
 
 @Injectable()
-export class SecurityGroupLoader implements NestDataLoader {
+export class SecurityGroupUserLoader implements NestDataLoader {
   constructor(
     @InjectRepository(SecurityGroup)
     private readonly securityGroupRepo: Repository<SecurityGroup>,

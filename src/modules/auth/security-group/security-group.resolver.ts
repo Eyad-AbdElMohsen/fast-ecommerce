@@ -17,9 +17,9 @@ import { User } from '../user/user.entity';
 import { SecurityGroup } from './security-group.entity';
 import { Loader } from 'src/decorators/loader.decorator';
 import DataLoader from 'dataloader';
-import { UserLoader } from '../user/loader/user.loader';
 import { GqlStringArrayResponse } from 'src/gql/graphql-response';
 import { getAllPermissions } from 'src/types/security-group-permissions.type.ts';
+import { UserSecurityGroupLoader } from './loader/user-security-group.loader';
 
 @Resolver(() => SecurityGroup)
 export class SecurityGroupResolver {
@@ -49,7 +49,7 @@ export class SecurityGroupResolver {
   @ResolveField(() => [User], { nullable: true })
   users(
     @Parent() securityGroup: SecurityGroup,
-    @Loader(UserLoader) userLoader: DataLoader<any, any>,
+    @Loader(UserSecurityGroupLoader) userLoader: DataLoader<any, any>,
   ) {
     return userLoader.load(securityGroup.id);
   }

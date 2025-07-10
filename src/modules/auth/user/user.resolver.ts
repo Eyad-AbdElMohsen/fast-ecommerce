@@ -21,7 +21,7 @@ import { CreateAdminInput } from './input/create-admin.input';
 import { SecurityGroup } from '../security-group/security-group.entity';
 import { Loader } from 'src/decorators/loader.decorator';
 import DataLoader from 'dataloader';
-import { SecurityGroupLoader } from '../security-group/loader/security-group.loader';
+import { SecurityGroupUserLoader } from './loader/security-group-user.loader.ts';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -101,7 +101,7 @@ export class UserResolver {
   @ResolveField(() => SecurityGroup, { nullable: true })
   securityGroup(
     @Parent() user: User,
-    @Loader(SecurityGroupLoader) securityGroupLoader: DataLoader<any, any>,
+    @Loader(SecurityGroupUserLoader) securityGroupLoader: DataLoader<any, any>,
   ) {
     if (user.securityGroupId)
       return securityGroupLoader.load(user.securityGroupId);

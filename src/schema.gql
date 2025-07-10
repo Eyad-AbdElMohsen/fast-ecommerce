@@ -2,6 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type SecurityGroup {
+  id: ID!
+  groupName: String!
+  permissions: [String!]!
+  isActive: Boolean!
+  users: [User!]
+}
+
 type Review {
   id: ID!
   rating: ReviewRating
@@ -16,38 +24,6 @@ enum ReviewRating {
   THREE
   FOUR
   FIVE
-}
-
-type Category {
-  id: ID!
-  name: String!
-  description: String
-  products: [Product!]
-}
-
-type Product {
-  id: Int!
-  title: String!
-  price: Int!
-  stock_quantity: Int!
-  items: [CartItem!]
-  reviews: [Review!]
-  category: Category!
-}
-
-type CartItem {
-  id: Int!
-  cart: Cart!
-  product: Product
-  quantity: Int!
-}
-
-type Cart {
-  id: Float!
-  user: User!
-  userId: Int!
-  order: Order
-  items: [CartItem!]
 }
 
 type Payment {
@@ -77,6 +53,26 @@ enum PaymentStatus {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type User {
+  id: Float!
+  name: String!
+  email: String!
+  access_token: String
+  role: UserRoleEnum!
+  orders: [Order!]
+  carts: [Cart!]
+  reviews: [Review!]
+  securityGroup: SecurityGroup
+  securityGroupId: Float
+  payments: [Payment!]
+}
+
+enum UserRoleEnum {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
 
 type Shipment {
   id: ID!
@@ -119,32 +115,36 @@ enum OrderStatusEnum {
   CANCELED
 }
 
-type User {
+type Cart {
   id: Float!
-  name: String!
-  email: String!
-  access_token: String
-  role: UserRoleEnum!
-  orders: [Order!]
-  carts: [Cart!]
-  reviews: [Review!]
-  securityGroup: SecurityGroup
-  securityGroupId: Float
-  payments: [Payment!]
+  user: User!
+  userId: Int!
+  order: Order
+  items: [CartItem!]
 }
 
-enum UserRoleEnum {
-  USER
-  ADMIN
-  SUPER_ADMIN
+type CartItem {
+  id: Int!
+  cart: Cart!
+  product: Product
+  quantity: Int!
 }
 
-type SecurityGroup {
+type Category {
   id: ID!
-  groupName: String!
-  permissions: [String!]!
-  isActive: Boolean!
-  users: [User!]
+  name: String!
+  description: String
+  products: [Product!]
+}
+
+type Product {
+  id: Int!
+  title: String!
+  price: Int!
+  stock_quantity: Int!
+  items: [CartItem!]
+  reviews: [Review!]
+  category: Category!
 }
 
 type GqlBooleanResponse {

@@ -7,8 +7,8 @@ import { Order } from '../../order/order.entity';
 import { Cart } from '../../cart/cart.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SecurityGroupModule } from '../security-group/security-group.module';
-import { AdminGuard } from 'src/guards/strategies/admin.guard';
-import { UserLoader } from './loader/user.loader';
+import { UserSecurityGroupLoader } from '../security-group/loader/user-security-group.loader';
+
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { UserLoader } from './loader/user.loader';
     ConfigModule,
     forwardRef(() => SecurityGroupModule),
   ],
-  providers: [UserService, UserResolver, UserLoader],
-  exports: [UserService, UserLoader],
+  providers: [UserService, UserResolver, UserSecurityGroupLoader],
+  exports: [UserService, UserSecurityGroupLoader],
 })
 export class UserModule {}
